@@ -139,6 +139,7 @@
  * M165 - Set the proportions for a mixing extruder. Use parameters ABCDHI to set the mixing factors. (Requires MIXING_EXTRUDER)
  * M190 - Sxxx Wait for bed current temp to reach target temp. ** Waits only when heating! **
  *        Rxxx Wait for bed current temp to reach target temp. ** Waits for heating or cooling. **
+ * M192 - NOT IMPLEMENTED YET!! babystepping through buffer M192 <direction><distance>  of  M192 R <direction><steps> D<delay> example M192 Z1 or M192 R X6.2 Y-6.2 D1
  * M200 - Set filament diameter, D<diameter>, setting E axis units to cubic. (Use S0 to revert to linear units.)
  * M201 - Set max acceleration in units/s^2 for print moves: "M201 X<accel> Y<accel> Z<accel> E<accel>"
  * M202 - Set max acceleration in units/s^2 for travel moves: "M202 X<accel> Y<accel> Z<accel> E<accel>" ** UNUSED IN MARLIN! **
@@ -7515,6 +7516,56 @@ inline void gcode_M121() { endstops.enable_globally(false); }
 #endif // BLINKM || RGB_LED
 
 /**
+ * M192: Do microstelling with buffer through gcode in printrun or octoprint
+ *
+ */
+
+/* 
+inline void gcode_M192() {
+  if(code_seen('R'))
+      {
+        int p[3]={0,0,0};
+        for(int8_t i=0; i < 3; i++) 
+        {
+          if(code_seen(axis_codes[i])) p[i] = code_value_float();
+        }
+        uint8_t d;
+        if(code_seen('D')) d = code_value_float();
+        SERIAL_ECHOLN("baby..");
+        realTimeStep(p[0],p[1],p[2], d);
+        SERIAL_ECHOLN("..stepped");
+      }
+      else
+      {
+        
+        
+        
+    if(!code_seen(axis_codes[E_AXIS]))
+    st_synchronize();
+    for(int8_t i=0; i < NUM_AXIS; i++) {
+    destination[i] = current_position[i];
+    if(code_seen(axis_codes[i])) { 
+       if(i == E_AXIS) {
+       current_position[i] -= code_value();  
+       plan_set_e_position(current_position[E_AXIS]);
+       }
+       else {
+       current_position[i] -= code_value();  
+       plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+       }
+    }
+    }
+    plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder);
+    for(int8_t i=0; i < NUM_AXIS; i++) {
+      current_position[i] = destination[i];  
+    }
+    plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+    }
+}
+*/
+
+
+/**
  * M200: Set filament diameter and set E axis units to cubic units
  *
  *    T<extruder> - Optional extruder number. Current extruder if omitted.
@@ -10223,7 +10274,11 @@ void process_next_command() {
             break;
         #endif
       #endif
-
+/*
+      case 192: // M200: Set filament diameter, E to cubic units
+        gcode_M192();
+        break;
+*/
       case 200: // M200: Set filament diameter, E to cubic units
         gcode_M200();
         break;
