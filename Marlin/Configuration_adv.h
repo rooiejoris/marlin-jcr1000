@@ -278,12 +278,15 @@
   // Play a little bit with small adjustments (0.5mm) and check the behaviour.
   // The M119 (endstops report) will start reporting the Z2 Endstop as well.
 
-  //joris
+  
+  //joris, eventually turned off again for the probe thing
+  //joris 20171117 turned on again since mounted both endstop on the sides
   #define Z_DUAL_ENDSTOPS
 
   #if ENABLED(Z_DUAL_ENDSTOPS)
-    #define Z2_USE_ENDSTOP _XMAX_
-    #define Z_DUAL_ENDSTOPS_ADJUSTMENT  0  // use M666 command to determine/test this value
+//    #define Z2_USE_ENDSTOP _XMAX_
+    #define Z2_USE_ENDSTOP Z2_MIN_PIN
+    #define Z_DUAL_ENDSTOPS_ADJUSTMENT  2.1  // use M666 command to determine/test this value
   #endif
 
 #endif // Z_DUAL_STEPPER_DRIVERS
@@ -593,7 +596,7 @@
  *
  * Warning: Does not respect endstops!
  */
-//#define BABYSTEPPING
+#define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
   #define BABYSTEP_XY              // Also enable X/Y Babystepping. Not supported on DELTA!
   #define BABYSTEP_INVERT_Z false  // Change if Z babysteps should go the other way

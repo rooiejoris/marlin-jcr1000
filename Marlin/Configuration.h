@@ -555,6 +555,7 @@
  *
  * Enable this option for a probe connected to the Z Min endstop pin.
  */
+//joris I think This should be better, not turned on yet since I cannot test directly
 #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 /**
@@ -578,6 +579,7 @@
  */
 //#define Z_MIN_PROBE_ENDSTOP
 //#define Z_MIN_PROBE_PIN Z_MAX_PIN
+//#define Z_MIN_PROBE_PIN Z2_MIN_PIN
 
 /**
  * Probe Type
@@ -749,7 +751,7 @@
 
 // @section homing
 
-//#define Z_HOMING_HEIGHT 4  // (in mm) Minimal z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT 14  // (in mm) Minimal z height before homing (G28) for Z clearance above the bed, clamps, ...
                              // Be sure you have this distance over your Z_MAX_POS in case.
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
@@ -859,13 +861,13 @@
   // Set the number of grid points per dimension.
   #define GRID_MAX_POINTS_X 3
   //joris 2017-11-05
-  #define GRID_MAX_POINTS_Y 6 //GRID_MAX_POINTS_X
+  #define GRID_MAX_POINTS_Y 3 //GRID_MAX_POINTS_X
   //#define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
   //joris 2017-1-05
   #define LEFT_PROBE_BED_POSITION 0
-  #define RIGHT_PROBE_BED_POSITION 520
+  #define RIGHT_PROBE_BED_POSITION 500
   #define FRONT_PROBE_BED_POSITION 0
   #define BACK_PROBE_BED_POSITION 870
 
@@ -910,9 +912,10 @@
   //========================= Unified Bed Leveling ============================
   //===========================================================================
 
-  #define UBL_MESH_INSET 1          // Mesh inset margin on print area
-  #define GRID_MAX_POINTS_X 10      // Don't use more than 15 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+  #define UBL_MESH_INSET 30          // Mesh inset margin on print area
+  #define GRID_MAX_POINTS_X 4      // Don't use more than 15 points per axis, implementation limited.
+  //#define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+  #define GRID_MAX_POINTS_Y 6
   #define UBL_PROBE_PT_1_X 39       // These set the probe locations for when UBL does a 3-Point leveling
   #define UBL_PROBE_PT_1_Y 180      // of the mesh.
   #define UBL_PROBE_PT_2_X 39

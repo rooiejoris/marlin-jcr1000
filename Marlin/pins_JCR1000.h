@@ -54,7 +54,7 @@
 // Z Probe (when not Z_MIN_PIN)
 //
 #ifndef Z_MIN_PROBE_PIN
-  #define Z_MIN_PROBE_PIN  32
+  #define Z_MIN_PROBE_PIN  17
 #endif
 
 //
@@ -107,12 +107,14 @@
 
 #define FAN_PIN             3
 
+
+// BELOW IS NOT IN USED OR TESTED...!!
 //
 // Misc. Functions
 //
 #define SDSS               53
-#define LED_PIN            13
-#define PS_ON_PIN          12
+#define LED_PIN            13 // note same as servo pin?!
+#define PS_ON_PIN          13 // note was same as temp bed pin?!
 #define SUICIDE_PIN        54  // PIN that has to be turned on right after start, to keep power flowing.
 
 //
@@ -125,35 +127,18 @@
   #if ENABLED(NEWPANEL)
 
     #define LCD_PINS_RS 20
-    #define LCD_PINS_ENABLE 17
-    #define LCD_PINS_D4 16
+    #define LCD_PINS_ENABLE 13 // 17
+    #define LCD_PINS_D4 13 //16
     #define LCD_PINS_D5 21
-    #define LCD_PINS_D6 5
+    #define LCD_PINS_D6 13 //5
     #define LCD_PINS_D7 6
 
     // buttons are directly attached
-    #define BTN_EN1 40
-    #define BTN_EN2 42
+    #define BTN_EN1 13 //40
+    #define BTN_EN2 13 //42
     #define BTN_ENC 19
 
-    #define SD_DETECT_PIN 38
-
-  #else // !NEWPANEL - Old style panel with shift register
-
-    // buttons are attached to a shift register
-    #define SHIFT_CLK 38
-    #define SHIFT_LD 42
-    #define SHIFT_OUT 40
-    #define SHIFT_EN 17
-
-    #define LCD_PINS_RS 16
-    #define LCD_PINS_ENABLE 5
-    #define LCD_PINS_D4 6
-    #define LCD_PINS_D5 21
-    #define LCD_PINS_D6 20
-    #define LCD_PINS_D7 19
-
-    #define SD_DETECT_PIN -1
+    #define SD_DETECT_PIN 13 //38
 
   #endif // !NEWPANEL
 
