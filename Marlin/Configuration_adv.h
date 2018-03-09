@@ -294,7 +294,7 @@
   #endif
 #endif
 
-joris
+//joris
 #define Z_DUAL_STEPPER_DRIVERS
 #if ENABLED(Z_DUAL_STEPPER_DRIVERS)
   //joris, eventually turned off again for the probe thing
