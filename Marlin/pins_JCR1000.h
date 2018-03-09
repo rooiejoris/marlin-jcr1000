@@ -113,7 +113,7 @@
 // Misc. Functions
 //
 #define SDSS               53
-#define LED_PIN            13 // note same as servo pin?!
+#define LED_PIN            12 // note same as servo pin?!
 #define PS_ON_PIN          13 // note was same as temp bed pin?!
 #define SUICIDE_PIN        54  // PIN that has to be turned on right after start, to keep power flowing.
 
