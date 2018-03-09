@@ -14391,6 +14391,12 @@ void setup() {
   stepper.init();    // Initialize stepper, this enables interrupts!
   servo_init();
 
+//joris prevent table coming down on startup, testing, doesn't seem to work on the beginning of the startup, maybe here...?
+  enable_Z();
+  // could also try this...
+  //OUT_WRITE(Z_ENABLE_PIN, HIGH);
+  //OUT_WRITE(Z2_ENABLE_PIN, HIGH);
+  
   #if HAS_PHOTOGRAPH
     OUT_WRITE(PHOTOGRAPH_PIN, LOW);
   #endif

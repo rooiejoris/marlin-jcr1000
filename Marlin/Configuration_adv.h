@@ -294,12 +294,17 @@
   #endif
 #endif
 
-//#define Z_DUAL_STEPPER_DRIVERS
+joris
+#define Z_DUAL_STEPPER_DRIVERS
 #if ENABLED(Z_DUAL_STEPPER_DRIVERS)
-  //#define Z_DUAL_ENDSTOPS
+  //joris, eventually turned off again for the probe thing
+  //joris 20171117 turned on again since mounted both endstop on the sides
+  #define Z_DUAL_ENDSTOPS
   #if ENABLED(Z_DUAL_ENDSTOPS)
-    #define Z2_USE_ENDSTOP _XMAX_
-    #define Z_DUAL_ENDSTOPS_ADJUSTMENT  0
+//joris
+//    #define Z2_USE_ENDSTOP _XMAX_
+    #define Z2_USE_ENDSTOP Z2_MIN_PIN
+    #define Z_DUAL_ENDSTOPS_ADJUSTMENT  2.1  // use M666 command to determine/test this value
   #endif
 #endif
 
@@ -366,10 +371,19 @@
 //#define DUAL_NOZZLE_DUPLICATION_MODE
 
 // By default pololu step drivers require an active high signal. However, some high power drivers require an active low signal as step.
-#define INVERT_X_STEP_PIN false
-#define INVERT_Y_STEP_PIN false
-#define INVERT_Z_STEP_PIN false
-#define INVERT_E_STEP_PIN false
+
+//joris
+#define INVERT_X_STEP_PIN true
+#define INVERT_Y_STEP_PIN true
+#define INVERT_Z_STEP_PIN true
+#define INVERT_E_STEP_PIN true
+
+//original
+//#define INVERT_X_STEP_PIN false
+//#define INVERT_Y_STEP_PIN false
+//#define INVERT_Z_STEP_PIN false
+//#define INVERT_E_STEP_PIN false
+
 
 // Default stepper release if idle. Set to 0 to deactivate.
 // Steppers will shut down DEFAULT_STEPPER_DEACTIVE_TIME seconds after the last move when DISABLE_INACTIVE_? is true.
@@ -377,7 +391,9 @@
 #define DEFAULT_STEPPER_DEACTIVE_TIME 120
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
-#define DISABLE_INACTIVE_Z true  // set to false if the nozzle will fall down on your printed part when print has finished.
+//joris
+#define DISABLE_INACTIVE_Z false  // set to false if the nozzle will fall down on your printed part when print has finished.
+//#define DISABLE_INACTIVE_Z true  // set to false if the nozzle will fall down on your printed part when print has finished.
 #define DISABLE_INACTIVE_E true
 
 #define DEFAULT_MINIMUMFEEDRATE       0.0     // minimum feedrate
@@ -655,9 +671,11 @@
  *
  * Warning: Does not respect endstops!
  */
-//#define BABYSTEPPING
+//joris
+#define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
-  //#define BABYSTEP_XY              // Also enable X/Y Babystepping. Not supported on DELTA!
+  //joris
+  #define BABYSTEP_XY              // Also enable X/Y Babystepping. Not supported on DELTA!
   #define BABYSTEP_INVERT_Z false    // Change if Z babysteps should go the other way
   #define BABYSTEP_MULTIPLICATOR 1   // Babysteps are very small. Increase for faster motion.
   //#define BABYSTEP_ZPROBE_OFFSET   // Enable to combine M851 and Babystepping
@@ -1358,7 +1376,8 @@
 /**
  * M43 - display pin status, watch pins for changes, watch endstops & toggle LED, Z servo probe test, toggle pins
  */
-//#define PINS_DEBUGGING
+//joris 2017-11-5
+#define PINS_DEBUGGING
 
 /**
  * Auto-report temperatures with M155 S<seconds>
