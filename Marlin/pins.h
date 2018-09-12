@@ -264,6 +264,10 @@
 #elif MB(5DPRINT)
   #include "pins_5DPRINT.h"           // AT90USB1286                                ?env:at90USB1286_DFU
 
+//joris
+#elif MB(JCR1000)
+  #include "pins_JCR1000.h"
+
 #else
   #error "Unknown MOTHERBOARD value set in Configuration.h"
 #endif
