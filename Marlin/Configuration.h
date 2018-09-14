@@ -380,9 +380,15 @@
 
   //echo:  M301 P19.92 I3.38 D29.37
   // pino
-  #define  DEFAULT_Kp 19.92
-  #define  DEFAULT_Ki 3.38
-  #define  DEFAULT_Kd 29.37
+
+  #define  DEFAULT_Kp 7.91
+  #define  DEFAULT_Ki 0.47
+  #define  DEFAULT_Kd 33.55
+
+  //pino old
+  //#define  DEFAULT_Kp 19.92
+  //#define  DEFAULT_Ki 3.38
+  //#define  DEFAULT_Kd 29.37
 
 
   // Ultimaker
@@ -617,7 +623,7 @@
  *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4]]]]
  */
 //echo:  M92 X160.00 Y85.33 Z2000.00 E105.47
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 160, 85.33, 2000, 105.47 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 160, 85.33, 2000, 99 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -794,7 +800,7 @@
  */
 #define X_PROBE_OFFSET_FROM_EXTRUDER 10  // X offset: -left  +right  [of the nozzle]
 #define Y_PROBE_OFFSET_FROM_EXTRUDER 10  // Y offset: -front +behind [the nozzle]
-#define Z_PROBE_OFFSET_FROM_EXTRUDER 0   // Z offset: -below +above  [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -11.50  // Z offset: -below +above  [the nozzle]
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 10
@@ -1023,7 +1029,8 @@
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+//joris, enabled otherwise error in compiling
+#define RESTORE_LEVELING_AFTER_G28
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.

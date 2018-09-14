@@ -14545,6 +14545,9 @@ void setup() {
 
   servo_init();             // Initialize all servos, stow servo probe
 
+//joris prevent table coming down on startup, testing, doesn't seem to work on the beginning of the startup, maybe here...?
+  enable_Z();
+
   #if HAS_PHOTOGRAPH
     OUT_WRITE(PHOTOGRAPH_PIN, LOW);
   #endif

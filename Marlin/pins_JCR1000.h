@@ -20,17 +20,22 @@
  *
  */
 
+
+
 /**
- * JCR1000 pin assignments emprical from joris
+ * JCR1000 pin assignments emperical from joris
  */
 
 #if !defined(__AVR_ATmega1280__) && !defined(__AVR_ATmega2560__)
   #error "Oops!  Make sure you have 'Arduino Mega' selected from the 'Tools -> Boards' menu."
 #endif
 
-#define DEFAULT_MACHINE_NAME    "JCR1000 - Pino"
-#define DEFAULT_SOURCE_CODE_URL "https://github.com/Marlinfirmware"
-#define BOARD_NAME              "JCR1000"
+#ifndef BOARD_NAME
+  #define BOARD_NAME "JCR1000"
+#endif
+#define DEFAULT_MACHINE_NAME "JCR1000 - Pino"
+
+
 
 #define LARGE_FLASH true
 
