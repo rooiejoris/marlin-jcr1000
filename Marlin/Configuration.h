@@ -1054,7 +1054,9 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+
+    //joris 20181019 stond uit, aangezet, maar niet meteen geupload
+  #define G26_MESH_VALIDATION
   #if ENABLED(G26_MESH_VALIDATION)
     //joris
     #define MESH_TEST_NOZZLE_SIZE    0.6  // (mm) Diameter of primary nozzle.
