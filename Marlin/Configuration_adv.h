@@ -573,13 +573,18 @@
 //
 // For Z set the number of stepper drivers
 //
-#define NUM_Z_STEPPER_DRIVERS 1   // (1-4) Z options change based on how many
+//joris
+#define NUM_Z_STEPPER_DRIVERS 2   // (1-4) Z options change based on how many
+//#define NUM_Z_STEPPER_DRIVERS 1   // (1-4) Z options change based on how many
 
 #if NUM_Z_STEPPER_DRIVERS > 1
-  //#define Z_MULTI_ENDSTOPS
+  //joris
+  #define Z_MULTI_ENDSTOPS
   #if ENABLED(Z_MULTI_ENDSTOPS)
-    #define Z2_USE_ENDSTOP          _XMAX_
-    #define Z2_ENDSTOP_ADJUSTMENT   0
+    #define Z2_USE_ENDSTOP          Z2_MIN_PIN
+    #define Z2_ENDSTOP_ADJUSTMENT   2.1 // use M666 command to determine/test this value, does this still works?
+    //#define Z2_USE_ENDSTOP          _XMAX_
+    //#define Z2_ENDSTOP_ADJUSTMENT   0
     #if NUM_Z_STEPPER_DRIVERS >= 3
       #define Z3_USE_ENDSTOP        _YMAX_
       #define Z3_ENDSTOP_ADJUSTMENT 0
@@ -828,20 +833,30 @@
 //#define MULTI_NOZZLE_DUPLICATION
 
 // By default pololu step drivers require an active high signal. However, some high power drivers require an active low signal as step.
-#define INVERT_X_STEP_PIN false
-#define INVERT_Y_STEP_PIN false
-#define INVERT_Z_STEP_PIN false
-#define INVERT_E_STEP_PIN false
+//joris
+#define INVERT_X_STEP_PIN true
+#define INVERT_Y_STEP_PIN true
+#define INVERT_Z_STEP_PIN true
+#define INVERT_E_STEP_PIN true
+
+//original
+//#define INVERT_X_STEP_PIN false
+//#define INVERT_Y_STEP_PIN false
+//#define INVERT_Z_STEP_PIN false
+//#define INVERT_E_STEP_PIN false
 
 /**
  * Idle Stepper Shutdown
  * Set DISABLE_INACTIVE_? 'true' to shut down axis steppers after an idle period.
  * The Deactive Time can be overridden with M18 and M84. Set to 0 for No Timeout.
+ * joris: interesting that this can be set with gcode
  */
-#define DEFAULT_STEPPER_DEACTIVE_TIME 120
+#define DEFAULT_STEPPER_DEACTIVE_TIME 300 // was 120
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
-#define DISABLE_INACTIVE_Z true  // Set 'false' if the nozzle could fall onto your printed part!
+//joris
+#define DISABLE_INACTIVE_Z false  // Set 'false' if the nozzle could fall onto your printed part!
+//#define DISABLE_INACTIVE_Z true  // Set 'false' if the nozzle could fall onto your printed part!
 #define DISABLE_INACTIVE_E true
 
 // If the Nozzle or Bed falls when the Z stepper is disabled, set its resting position here.
@@ -1603,14 +1618,15 @@
  *
  * Warning: Does not respect endstops!
  */
-//#define BABYSTEPPING
+//joris 20201115 changed steps to mm
+#define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
   //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
   //#define BABYSTEP_WITHOUT_HOMING
-  //#define BABYSTEP_ALWAYS_AVAILABLE       // Allow babystepping at all times (not just during movement).
-  //#define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
+  #define BABYSTEP_ALWAYS_AVAILABLE       // Allow babystepping at all times (not just during movement).
+  #define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
   #define BABYSTEP_INVERT_Z false           // Change if Z babysteps should go the other way
-  //#define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
+  #define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
   #define BABYSTEP_MULTIPLICATOR_Z  1       // (steps or mm) Steps or millimeter distance for each Z babystep
   #define BABYSTEP_MULTIPLICATOR_XY 1       // (steps or mm) Steps or millimeter distance for each XY babystep
 
@@ -1626,7 +1642,8 @@
 
   //#define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
 
-  //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
+  //joris 20200609 newly turned on
+  #define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
   #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
     //#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
     //#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Enable graphical overlay on Z-offset editor
@@ -1699,8 +1716,14 @@
   //#define PROBING_MARGIN_BACK PROBING_MARGIN
 #endif
 
+//joris 2020-06-26
 #if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL)
   // Override the mesh area if the automatic (max) area is too large
+  #define MESH_MIN_X 45 //MESH_INSET
+  #define MESH_MIN_Y 65 //MESH_INSET
+  #define MESH_MAX_X X_BED_SIZE - (MESH_INSET) - 20
+  #define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET) - 60
+
   //#define MESH_MIN_X MESH_INSET
   //#define MESH_MIN_Y MESH_INSET
   //#define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
@@ -1793,9 +1816,11 @@
 //
 #define ARC_SUPPORT                 // Disable this feature to save ~3226 bytes
 #if ENABLED(ARC_SUPPORT)
-  #define MM_PER_ARC_SEGMENT      1 // (mm) Length (or minimum length) of each arc segment
-  //#define ARC_SEGMENTS_PER_R    1 // Max segment length, MM_PER = Min
-  #define MIN_ARC_SEGMENTS       24 // Minimum number of segments in a complete circle
+//joris 20201114
+//  #define MM_PER_ARC_SEGMENT      1 // (mm) Length (or minimum length) of each arc segment
+  #define MM_PER_ARC_SEGMENT      1 //was 1 weird slowdowns, 0.5 makes it slow (mm) Length (or minimum length) of each arc segment
+  //#define ARC_SEGMENTS_PER_R    2 // was not defined as 1  Max segment length, MM_PER = Min
+  #define MIN_ARC_SEGMENTS       36 //was 24 Minimum number of segments in a complete circle
   //#define ARC_SEGMENTS_PER_SEC 50 // Use feedrate to choose segment length (with MM_PER_ARC_SEGMENT as the minimum)
   #define N_ARC_CORRECTION       25 // Number of interpolated segments between corrections
   //#define ARC_P_CIRCLES           // Enable the 'P' parameter to specify complete circles
@@ -1845,6 +1870,9 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
+//joris can solve babystepping issues...?! https://github.com/MarlinFirmware/Marlin/issues/14314
+#define MINIMUM_STEPPER_POST_DIR_DELAY 5000
+#define MINIMUM_STEPPER_PRE_DIR_DELAY 5000
 //#define MINIMUM_STEPPER_POST_DIR_DELAY 650
 //#define MINIMUM_STEPPER_PRE_DIR_DELAY 650
 
@@ -1859,6 +1887,9 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
+//joris can solve babystepping issues...?! https://github.com/MarlinFirmware/Marlin/issues/14314
+//#define MINIMUM_STEPPER_PULSE 2
+// this works in previous firmware, but no good babystepping #define MINIMUM_STEPPER_PULSE 0 // (µs) The smallest stepper pulse allowed
 //#define MINIMUM_STEPPER_PULSE 2
 
 /**
@@ -1873,6 +1904,8 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
+//joris can solve babystepping issues...?! https://github.com/MarlinFirmware/Marlin/issues/14314
+#define MAXIMUM_STEPPER_RATE 80000
 //#define MAXIMUM_STEPPER_RATE 250000
 
 // @section temperature
@@ -1893,14 +1926,16 @@
 #elif ENABLED(SDSUPPORT)
   #define BLOCK_BUFFER_SIZE 16
 #else
-  #define BLOCK_BUFFER_SIZE 16
+//joris 20201111
+  #define BLOCK_BUFFER_SIZE 32 //was 16 maximize block buffer
 #endif
 
 // @section serial
 
 // The ASCII buffer for serial input
 #define MAX_CMD_SIZE 96
-#define BUFSIZE 4
+//joris 20201111
+#define BUFSIZE 32 // was 4
 
 // Transmission to Host Buffer Size
 // To save 386 bytes of PROGMEM (and TX_BUFFER_SIZE+3 bytes of RAM) set to 0.
@@ -1909,7 +1944,8 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 0
+//joris 20201111
+#define TX_BUFFER_SIZE 32 // was 0
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -2087,7 +2123,8 @@
  * Requires NOZZLE_PARK_FEATURE.
  * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
  */
-//#define ADVANCED_PAUSE_FEATURE
+//joris 2020-06-26
+#define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -2128,7 +2165,8 @@
   //#define PARK_HEAD_ON_PAUSE                    // Park the nozzle during pause and filament change.
   //#define HOME_BEFORE_FILAMENT_CHANGE           // If needed, home before parking for filament change
 
-  //#define FILAMENT_LOAD_UNLOAD_GCODES           // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
+  //joris 2020-06-29
+  #define FILAMENT_LOAD_UNLOAD_GCODES           // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
   //#define FILAMENT_UNLOAD_ALL_EXTRUDERS         // Allow M702 to unload all extruders above a minimum target temp (as set by M302)
 #endif
 
@@ -2843,6 +2881,7 @@
  * Add the M240 G-code to take a photo.
  * The photo can be triggered by a digital pin or a physical movement.
  */
+//joris intersting for future adjustments
 //#define PHOTO_GCODE
 #if ENABLED(PHOTO_GCODE)
   // A position to move to (and raise Z) before taking the photo
@@ -3207,7 +3246,8 @@
  *
  * Execute certain G-code commands immediately after power-on.
  */
-//#define STARTUP_COMMANDS "M17 Z"
+// joris, power z motor on startup and turn leds on
+#define STARTUP_COMMANDS "M17 Z\nM42 P2 S255"
 
 /**
  * G-code Macros
@@ -3583,7 +3623,9 @@
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
 //
-//#define PINS_DEBUGGING
+//20201030 joris
+//werkt niet...?!?!
+#define PINS_DEBUGGING
 
 // Enable Marlin dev mode which adds some special commands
 //#define MARLIN_DEV_MODE
